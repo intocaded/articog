@@ -1,0 +1,933 @@
+<html><head><base href="/intoartico/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --primary: #1a1a1a;
+    --secondary: #2d2d2d;
+    --accent: #6c5ce7;
+    --text: #ffffff;
+}
+
+body {
+    background-color: var(--primary);
+    color: var(--text);
+    text-align: center;
+}
+
+.nav-toggle {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    cursor: pointer;
+    z-index: 1000;
+    padding: 10px;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background-color: var(--text);
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100vh;
+    width: 250px;
+    background-color: var(--secondary);
+    transition: 0.4s;
+    z-index: 999;
+    padding-top: 60px;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 25px;
+    color: var(--text);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: var(--accent);
+}
+
+.content {
+    padding: 70px 20px 20px;
+    transition: 0.4s;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.content section {
+    display: none;
+}
+
+.content section.active {
+    display: block;
+}
+
+.logo {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 30px;
+}
+
+.developer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.screenshots {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--secondary);
+}
+
+.screenshots h2 {
+    margin-bottom: 15px;
+}
+
+.screenshot-container {
+    display: flex;
+    flex-wrap: nowrap; 
+    justify-content: flex-start; 
+    gap: 5px;
+    overflow-x: auto;
+    padding: 10px 0;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+}
+
+.screenshot-container img {
+    flex: 0 0 auto; 
+    max-width: calc(25% - 10px);
+    scroll-snap-align: start;
+    margin: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .screenshot-container {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+    
+    .screenshot-container img {
+        max-width: calc(50% - 10px);
+        flex: 0 0 auto;
+    }
+}
+
+.screenshot-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--secondary);
+}
+
+.screenshot-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.screenshot-container::-webkit-scrollbar-track {
+    background: var(--secondary);
+    border-radius: 3px;
+}
+
+.screenshot-container::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 3px;
+}
+
+.lite-version-btn {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: 0.3s;
+}
+
+.lite-version-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.download-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.download-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.download-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.download-buttons .download-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    min-width: 140px;
+    text-align: center;
+    transition: transform 0.3s, opacity 0.3s;
+    gap: 5px;
+}
+
+.download-btn:before {
+    content: "Baixar";
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.download-btn span {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.btn-original {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+}
+
+.btn-purple {
+    background: linear-gradient(45deg, #9b59b6, #8e44ad);
+}
+
+.btn-dark {
+    background: linear-gradient(45deg, #34495e, #2c3e50);
+}
+
+.btn-pink {
+    background: linear-gradient(45deg, #e84393, #d81b60);
+}
+
+.btn-green {
+    background: linear-gradient(45deg, #27ae60, #219a52);
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.popup img {
+    max-width: 95%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.feature-icons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+.feature-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 120px; 
+    text-align: center; 
+}
+
+.feature-icon i {
+    font-size: 2.5rem;
+    color: var(--accent);
+}
+
+.feature-icon span {
+    width: 100%; 
+    font-size: 14px; 
+    line-height: 1.2; 
+}
+
+@media (max-width: 768px) {
+    .feature-icons {
+        gap: 20px;
+    }
+    
+    .feature-icon {
+        width: 100px; 
+    }
+    
+    .feature-icon i {
+        font-size: 2rem;
+    }
+    
+    .feature-icon span {
+        font-size: 12px;
+    }
+}
+
+.faq-item {
+    text-align: left;
+    background: var(--secondary);
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.faq-item h3 {
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.resource-card {
+    background: var(--secondary);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.resource-card h3 {
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+#resources ul li {
+    margin-bottom: 10px;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+#resources h3 {
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 70px 10px 10px;
+        width: 100%;
+    }
+    
+    .screenshots img {
+        max-width: calc(50% - 10px); 
+    }
+    
+    .screenshot-container {
+        gap: 5px;
+    }
+    
+    .screenshots {
+        padding: 10px;
+        margin: 10px 0;
+    }
+    
+    .screenshot-container {
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+    
+    h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    
+    p {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+    
+    .sidebar {
+        width: 80%; 
+        left: -80%;
+    }
+    
+    .nav-toggle {
+        padding: 8px;
+    }
+    
+    .nav-toggle span {
+        width: 24px;
+        height: 2px;
+        margin: 4px 0;
+    }
+    
+    .lite-version-btn, .download-btn {
+        width: 100%;
+        padding: 12px 15px;
+        font-size: 14px;
+        margin: 8px 0;
+    }
+    
+    .logo {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .sidebar a {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+    
+    .popup img {
+        max-width: 95%;
+        max-height: 95vh;
+        object-fit: contain;
+    }
+    
+    .developer {
+        bottom: 10px;
+        right: 10px;
+        font-size: 12px;
+    }
+    
+    .feature-icons {
+        gap: 20px;
+    }
+    
+    .feature-icon i {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .screenshots img {
+        max-width: calc(50% - 10px); 
+        margin: 5px 0;
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    .sidebar {
+        width: 90%;
+        left: -90%;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="nav-toggle" onclick="toggleNav()">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<nav class="sidebar">
+    <div class="logo">Gartic Mods</div>
+    <a href="#home"><i class="fas fa-home"></i> Página Inicial</a>
+    <a href="#resources"><i class="fas fa-cube"></i> Recursos</a>
+    <a href="#screenshots"><i class="fas fa-images"></i> Screenshots</a>
+    <a href="#downloads"><i class="fas fa-download"></i> Downloads</a>
+    <a href="#faqs"><i class="fas fa-question-circle"></i> FAQs</a>
+    <a href="#changelog"><i class="fas fa-history"></i> Changelog</a>
+    <div style="margin-top: auto; padding: 15px; font-size: 14px; opacity: 0.7;">Desenvolvido por Intocado</div>
+</nav>
+
+<main class="content">
+    <section id="home" class="active">
+        <h1>Bem-vindo ao Gartic Mods</h1>
+        <p>Sua fonte definitiva para modificações e recursos do Gartic. Explore diferentes temas e personalize sua experiência de jogo.</p>
+        
+        <div class="feature-icons">
+            <div class="feature-icon">
+                <i class="fas fa-paint-brush"></i>
+                <span>+ Cores</span>
+            </div>
+            <div class="feature-icon">
+                <i class="fas fa-mobile-alt"></i>
+                <span>+ Optimizações</span>
+            </div>
+            <div class="feature-icon">
+                <i class="fas fa-download"></i>
+                <span>Fácil Instalação</span>
+            </div>
+            <div class="feature-icon">
+                <i class="fas fa-ban"></i>
+                <span>Sem Anúncios</span>
+            </div>
+            <div class="feature-icon">
+                <i class="fas fa-shield-alt"></i>
+                <span>100% Seguro</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 15px; background: var(--accent); border-radius: 8px; text-align: center;">
+            <h3 style="margin-bottom: 10px;">🎉 Nova Atualização em breve! 🎉</h3>
+            <p>Versão 10.0 chegando em breve com novas funcionalidades e melhorias!</p>
+            <a href="#changelog" onclick="showSection('changelog')" style="color: white; text-decoration: underline; display: inline-block; margin-top: 10px;">Ver Changelog</a>
+        </div>
+
+        <div style="margin-top: 40px; background: var(--secondary); padding: 20px; border-radius: 8px;">
+            <i class="fas fa-download" style="font-size: 2em; color: var(--accent);"></i>
+            <h3 style="margin: 10px 0;">Downloads Totais</h3>
+            <img src="https://img.shields.io/github/downloads/intocaded/articog/total.svg" alt="Total Downloads" style="margin-top: 10px;">
+        </div>
+    </section>
+
+    <section id="resources">
+        <h2>Recursos</h2>
+        <p>Descubra todos os recursos especiais disponíveis em nossos mods.</p>
+        
+        <div style="text-align: left; padding: 20px;">
+            <h3>Principais Mudanças:</h3>
+            <ul style="list-style-type: disc; margin-left: 20px; margin-bottom: 30px;">
+                <li>Possibilidade de entrar em qualquer sala oficial: Escolha qualquer sala para jogar, também é possível entrar via link. Desbloqueado.</li>
+                <li>Novas cores para desenhar: Adicionados 20 novas cores. Sugestões? Me mande um oi no Discord: User: Intocado.</li>
+                <li>Botão de denúncia sempre ativado: Agora você pode denunciar na tela de vez de alguém.</li>
+                <li>Intervalos: Agora o intervalo conta com várias frases.</li>
+                <li>"Obra de Arte" e "Cancelado": Mais frases justas adicionadas.</li>
+                <li>Flood: Flood sem bloqueio após três envios.</li>
+                <li>Xingamentos: Permitido alguns xingamentos sem bloqueio.</li>
+                <li>Contador de mensagem do chat e o chat: Contador ajustado para 50+ e mensagens somem após 70 mensagens no chat.</li>
+                <li>Input do teclado sempre habilitado: Agora é possível digitar nos intervalos e após acertar o desenho.</li>
+                <li>Vitórias visíveis (novidade 11/06): Agora é possível ver as vitórias de alguém em cada sala.</li>
+                <li>Segundo plano volta a funcionar: Funcionando novamente o segundo plano, exibido na barra de notificações.</li>
+                <li>Próximos a desenhar visíveis (novidade 10/09): deu para colocar apenas na barra do tempo do desenho.</li>
+                <li>Nomes dos jogadores em cada sala: na tela de confirmação.</li>
+            </ul>
+
+            <h3>E Mais Algumas Coisas:</h3>
+            <ul style="list-style-type: disc; margin-left: 20px;">
+                <li>Diminuído os avatares e o balão de conversa do chat.</li>
+                <li>Diminuídos alguns delays, como tempo de resposta no envio e de lista de salas.</li>
+                <li>Removidos anúncios.</li>
+                <li>Fonte padrão é Google Sans em Bold.</li>
+                <li>Botão de link de sala no botão (i) nas salas.</li>
+                <li>Ignorar alguém por comando também ignora nas respostas.</li>
+                <li>Ícone de acerto para o próprio jogador adicionado.</li>
+                <li>Removidos bloatwares do próprio jogo, como botões de redes sociais do Gartic.</li>
+                <li>Mais opções em salas criadas (sem spoilers).</li>
+                <li>"Saiu do jogo" trocado para "Saiu da sala".</li>
+                <li>Integração com o Site Gartic em Opções esperando 5s, é possível ver rank de cada tema.</li>
+                <li>Mostra dificuldade no aviso de confirmação Facíl, Médio e Difícil.</li>
+                <li>Mostra criador da sala no aviso de confirmação</li>
+                <li>Removido Integração com Facebook (botão de logar com facebook).</li>
+                <li>Criar conta ficou mais prático.</li>
+                <li>Criar sala com todas as informações de uma vez.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="screenshots">
+        <h1>Screenshots</h1>
+        <p>Confira abaixo os screenshots de todos os nossos mods disponíveis.</p>
+        
+        <div class="download-section">
+            <div class="screenshots" id="blue-screenshots">
+                <h2>Mod Azul Original</h2>
+                <div class="screenshot-container" id="blue-full">
+                    <img src="https://i.postimg.cc/qqtvFR36/Screenshot-20240815-191409-G.jpg" alt="Azul 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/NFWjvc6J/Screenshot-20240815-191415-G.jpg" alt="Azul 2" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/RC8FHck7/Screenshot-20240815-191423-G.jpg" alt="Azul 3" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/VLCNBJw3/Screenshot-20240815-191443-G.jpg" alt="Azul 4" onclick="showPopup(this.src)">
+                </div>
+                <div class="screenshot-container" id="blue-lite" style="display: none;">
+                    <img src="https://i.postimg.cc/SNPwCh4x/Screenshot-20241110-072512-Gartic-Lite.jpg" alt="Azul Lite 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/hvPHb4hf/Screenshot-20241110-072515-Gartic-Lite.jpg" alt="Azul Lite 2" onclick="showPopup(this.src)">
+                </div>
+                <button class="lite-version-btn" onclick="toggleVersion('blue')">Veja aqui a versão lite</button>
+            </div>
+
+            <div class="screenshots" id="purple-screenshots">
+                <h2>Mod Roxo</h2>
+                <div class="screenshot-container" id="purple-full">
+                    <img src="https://i.postimg.cc/JhmthM9S/Screenshot-20240815-191514-G.jpg" alt="Roxo 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/vBZBWX8z/Screenshot-20240815-191520-G.jpg" alt="Roxo 2" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/qRD7Qnzd/Screenshot-20240815-191528-G.jpg" alt="Roxo 3" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/TP91LBx1/Screenshot-20240815-191552-G.jpg" alt="Roxo 4" onclick="showPopup(this.src)">
+                </div>
+                <div class="screenshot-container" id="purple-lite" style="display: none;">
+                    <img src="https://i.postimg.cc/8kZ8kvnW/Screenshot-20241110-072539-Gartic-Roxo-Lite.jpg" alt="Roxo Lite 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/MpjgYFZb/Screenshot-20241110-072634-Gartic-Roxo-Lite.jpg" alt="Roxo Lite 2" onclick="showPopup(this.src)">
+                </div>
+                <button class="lite-version-btn" onclick="toggleVersion('purple')">Veja aqui a versão lite</button>
+            </div>
+
+            <div class="screenshots" id="black-screenshots">
+                <h2>Mod Escuro</h2>
+                <div class="screenshot-container" id="black-full">
+                    <img src="https://i.postimg.cc/05H6CgwJ/Screenshot-20240815-191134-G.jpg" alt="Preto 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/02MzWtYX/Screenshot-20240815-191141-G.jpg" alt="Preto 2" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/3JsdPg98/Screenshot-20240815-191149-G.jpg" alt="Preto 3" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/wjD7H7bh/Screenshot-20240815-191308-G.jpg" alt="Preto 4" onclick="showPopup(this.src)">
+                </div>
+                <div class="screenshot-container" id="black-lite" style="display: none;">
+                    <img src="https://i.postimg.cc/j5KV24b6/Screenshot-20241110-072455-Gartic-Dark-Lite.jpg" alt="Escuro Lite 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/HLbDTPfs/Screenshot-20241110-072450-Gartic-Dark-Lite.jpg" alt="Escuro Lite 2" onclick="showPopup(this.src)">
+                </div>
+                <button class="lite-version-btn" onclick="toggleVersion('black')">Veja aqui a versão lite</button>
+            </div>
+
+            <div class="screenshots" id="pink-screenshots">
+                <h2>Mod Rosa</h2>
+                <div class="screenshot-container" id="pink-full">
+                    <img src="https://i.postimg.cc/PfLHJvXp/Screenshot-20241110-053218-G-Rosa.jpg" alt="Rosa 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/rz6QFP8J/Screenshot-20241110-053225-G-Rosa.jpg" alt="Rosa 2" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/G3ZCy3tM/Screenshot-20241110-053344-G-Rosa.jpg" alt="Rosa 3" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/MKV8bkjz/Screenshot-20241110-053300-G-Rosa.jpg" alt="Rosa 4" onclick="showPopup(this.src)">
+                </div>
+                <div class="screenshot-container" id="pink-lite" style="display: none;">
+                    <img src="https://i.postimg.cc/KjqC9XgQ/Screenshot-20241110-072528-Gartic-Rosa-Lite.jpg" alt="Rosa Lite 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/zfCMsHgy/Screenshot-20241110-072622-Gartic-Rosa-Lite.jpg" alt="Rosa Lite 2" onclick="showPopup(this.src)">
+                </div>
+                <button class="lite-version-btn" onclick="toggleVersion('pink')">Veja aqui a versão lite</button>
+            </div>
+
+            <div class="screenshots" id="green-screenshots">
+                <h2>Mod Verde</h2>
+                <div class="screenshot-container" id="green-full">
+                    <img src="https://i.postimg.cc/9f18tbpm/Screenshot-20241110-053424-G-Verde.jpg" alt="Verde 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/wvvWWNfh/Screenshot-20241110-053431-G-Verde.jpg" alt="Verde 2" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/26K0g5Mg/Screenshot-20241110-053920-G-Verde.jpg" alt="Verde 3" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/pr5svHtr/Screenshot-20241110-053509-G-Verde.jpg" alt="Verde 4" onclick="showPopup(this.src)">
+                </div>
+                <div class="screenshot-container" id="green-lite" style="display: none;">
+                    <img src="https://i.postimg.cc/ZKnGWq1Q/Screenshot-20241110-072554-Gartic-Verde-Lite.jpg" alt="Verde Lite 1" onclick="showPopup(this.src)">
+                    <img src="https://i.postimg.cc/43kq2QmC/Screenshot-20241110-072557-Gartic-Verde-Lite.jpg" alt="Verde Lite 2" onclick="showPopup(this.src)">
+                </div>
+                <button class="lite-version-btn" onclick="toggleVersion('green')">Veja aqui a versão lite</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="downloads">
+        <h1>Downloads</h1>
+        <p>Baixe as últimas versões de nossos mods</p>
+        
+        <div class="download-container">
+            <div class="download-item">
+                <h2>Mod Azul Original</h2>
+                <div class="download-buttons">
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodfull/GarticFULL9.5.apk?ref_type=heads&inline=false" class="download-btn btn-original">
+                        <span>Versão Full</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodlite/GarticLITE9.5.apk?ref_type=heads&inline=false" class="download-btn btn-original">
+                        <span>Versão Lite</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="download-item">
+                <h2>Mod Roxo</h2>
+                <div class="download-buttons">
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodfull/GarticRoxoFULL9.5.apk?ref_type=heads&inline=false" class="download-btn btn-purple">
+                        <span>Versão Full</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodlite/GarticRoxoLITE9.5.apk?ref_type=heads&inline=false" class="download-btn btn-purple">
+                        <span>Versão Lite</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="download-item">
+                <h2>Mod Escuro</h2>
+                <div class="download-buttons">
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodfull/GarticDarkFULL9.5.apk?ref_type=heads&inline=false" class="download-btn btn-dark">
+                        <span>Versão Full</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodlite/GarticDarkLITE9.5.apk?ref_type=heads&inline=false" class="download-btn btn-dark">
+                        <span>Versão Lite</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="download-item">
+                <h2>Mod Rosa</h2>
+                <div class="download-buttons">
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodfull/GarticRosaFULL9.5.apk?ref_type=heads&inline=false" class="download-btn btn-pink">
+                        <span>Versão Full</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodlite/GarticRosaLITE9.5.apk?ref_type=heads&inline=false" class="download-btn btn-pink">
+                        <span>Versão Lite</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="download-item">
+                <h2>Mod Verde</h2>
+                <div class="download-buttons">
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodfull/GarticVerdeFULL9.5.apk?ref_type=heads&inline=false" class="download-btn btn-green">
+                        <span>Versão Full</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                    <a href="https://www.opencode.net/intocado/gtcm/-/raw/main/gtcmodlite/GarticVerdeLITE9.5.apk?ref_type=heads&inline=false" class="download-btn btn-green">
+                        <span>Versão Lite</span>
+                        <span>Versão 9.5</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faqs">
+        <h2>Perguntas Frequentes</h2>
+        <p>Encontre respostas para as dúvidas mais comuns sobre nossos mods.</p>
+        
+        <div class="faq-item">
+            <h3>Como instalar os mods?</h3>
+            <p>Basta baixar o APK desejado e instalar diretamente no seu dispositivo Android. Certifique-se de permitir a instalação de fontes desconhecidas nas configurações.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Qual a diferença entre versões Full e Lite?</h3>
+            <p>As versões Full contêm todas as funcionalidades disponíveis, enquanto as versões Lite são otimizadas para melhor desempenho em dispositivos mais básicos.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Os mods são seguros?</h3>
+            <p>Sim, todos nossos mods são desenvolvidos com foco na segurança e testados antes do lançamento.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Posso usar em qualquer Android?</h3>
+            <p>Nossos mods são compatíveis com a maioria dos dispositivos Android. Recomendamos usar a versão Lite em dispositivos mais básicos.</p>
+        </div>
+    </section>
+
+    <section id="changelog">
+        <h1>Changelog</h1>
+        <p>Acompanhe todas as atualizações e novidades dos nossos mods.</p>
+        
+        <div style="text-align: left; max-width: 800px; margin: 0 auto; padding: 20px;">
+            <div class="faq-item">
+                <h3>Versão 9.5</h3>
+                <ul style="list-style-type: disc; margin-left: 20px;">
+                    <li>Status de vagas corrigido.</li>
+                    <li>Corrigido bug de lista de salas não atualizar as vagas.</li>
+                    <li>Melhorias na perfomance do aplicativo.</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h3>Versão 9.4</h3>
+                <ul style="list-style-type: disc; margin-left: 20px;">
+                    <li>Versão Dark com as cores cinza escuro.</li>
+                    <li>Corrigido um bug que se abria um perfil de um jogador na tela de confirmação e dps escolher outro jogador para ver o perfil, mostrava o jogador de antes. agora tem q abrir um novo perfil a cada 2s, para limpar os dados do perfil anterior que foi aberto. e também por causa em foco de atualização dos jogadores a cada 1s.</li>
+                    <li>Melhorias na perfomance do aplicativo.</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h3>Versão 9.3</h3>
+                <ul style="list-style-type: disc; margin-left: 20px;">
+                    <li>Tela de confirmação de sala em atualização a cada 1s.</li>
+                    <li>Status de vagas.</li>
+                    <li>Melhorias nas salas na versão LITE</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h3>Versão 9.1</h3>
+                <ul style="list-style-type: disc; margin-left: 20px;">
+                    <li>As vagas estão visiveis na tela de confirmação.</li>
+                    <li>Tela de confirmação agora em atualização a cada 1s.</li>
+                    <li>Melhorias nas salas</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h3>Versão 9.0</h3>
+                <ul style="list-style-type: disc; margin-left: 20px;">
+                    <li>Correção de bug na lista de salas</li>
+                    <li>Melhorias nas cores</li>
+                    <li>Correção de bugs menores</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h3>Versão 8.9</h3>
+                <ul style="list-style-type: disc; margin-left: 20px;">
+                    <li>Novo Link do site</li>
+                    <li>Melhorias de desempenho</li>
+                    <li>Correção de bugs menores</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h3>Versão 8.8</h3>
+                <ul style="list-style-type: disc; margin-left: 20px;">
+                    <li>Novos temas adicionados</li>
+                    <li>Melhorias de desempenho</li>
+                    <li>Correção de bugs menores</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h3>Versão 8.7</h3>
+                <ul style="list-style-type: disc; margin-left: 20px;">
+                    <li>Interface renovada</li>
+                    <li>Novo sistema de cores</li>
+                    <li>Otimização geral</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="developer">Desenvolvido por Intocado</div>
+</main>
+
+<div id="imagePopup" class="popup" onclick="this.style.display='none'">
+    <img id="popupImage" src="" alt="">
+</div>
+
+<script>
+function toggleNav() {
+    document.querySelector('.sidebar').classList.toggle('active');
+    const spans = document.querySelectorAll('.nav-toggle span');
+    spans.forEach(span => {
+        span.classList.toggle('active');
+    });
+}
+
+document.querySelectorAll('.sidebar a').forEach(link => {
+    const href = link.getAttribute('href');
+    if (window.location.href.includes('garticmod.static.domains')) {
+        link.setAttribute('href', '#' + href.split('#')[1]);
+    }
+});
+
+document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = link.getAttribute('href').split('#')[1];
+        showSection(section);
+        document.querySelector('.sidebar').classList.remove('active');
+    });
+});
+
+function showSection(sectionId) {
+    document.querySelectorAll('.content section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    document.getElementById(sectionId).classList.add('active');
+    
+
+    if (window.location.href.includes('garticmod.static.domains')) {
+        window.history.pushState({}, '', `#${sectionId}`);
+    } else {
+        window.history.pushState({}, '', `/intoartico/#${sectionId}`);
+    }
+    
+    if (window.innerWidth <= 768) {
+        document.querySelector('.sidebar').classList.remove('active');
+    }
+}
+
+
+window.addEventListener('load', () => {
+    const hash = window.location.hash.slice(1) || 'home';
+    showSection(hash);
+});
+
+window.addEventListener('popstate', () => {
+    const hash = window.location.hash.slice(1) || 'home';
+    showSection(hash);
+});
+
+function showPopup(src) {
+    const popup = document.getElementById('imagePopup');
+    const popupImg = document.getElementById('popupImage');
+    popupImg.src = src;
+    popup.style.display = 'flex';
+}
+
+function toggleVersion(color) {
+    const fullVersion = document.getElementById(`${color}-full`);
+    const liteVersion = document.getElementById(`${color}-lite`);
+    const button = fullVersion.parentElement.querySelector('.lite-version-btn');
+    
+    if (fullVersion.style.display !== 'none') {
+        fullVersion.style.display = 'none';
+        liteVersion.style.display = 'flex'; 
+        button.textContent = 'Voltar para versão completa';
+    } else {
+        fullVersion.style.display = 'flex'; 
+        liteVersion.style.display = 'none';
+        button.textContent = 'Veja aqui a versão lite';
+    }
+}
+
+document.addEventListener('click', (e) => {
+    const sidebar = document.querySelector('.sidebar');
+    const navToggle = document.querySelector('.nav-toggle');
+    
+    if (!sidebar.contains(e.target) && !navToggle.contains(e.target) && sidebar.classList.contains('active')) {
+        toggleNav();
+    }
+});
+</script>
+</body></html>
