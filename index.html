@@ -1,4 +1,4 @@
-<html><head><base href="/intoartico/">
+<html><head><base href="/articog/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -879,7 +879,7 @@ function showSection(sectionId) {
     if (window.location.href.includes('garticmod.static.domains')) {
         window.history.pushState({}, '', `#${sectionId}`);
     } else {
-        window.history.pushState({}, '', `/intoartico/#${sectionId}`);
+        window.history.pushState({}, '', `/articog/#${sectionId}`);
     }
     
     if (window.innerWidth <= 768) {
@@ -913,7 +913,7 @@ function toggleVersion(color) {
     if (fullVersion.style.display !== 'none') {
         fullVersion.style.display = 'none';
         liteVersion.style.display = 'flex'; 
-        button.textContent = 'Voltar para versão completa';
+        button.textContent = 'Voltar para versão full';
     } else {
         fullVersion.style.display = 'flex'; 
         liteVersion.style.display = 'none';
