@@ -1,4 +1,4 @@
-<html><head><base href="/articog/">
+<html><head><base href="/intoartico/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -853,13 +853,6 @@ function toggleNav() {
 }
 
 document.querySelectorAll('.sidebar a').forEach(link => {
-    const href = link.getAttribute('href');
-    if (window.location.href.includes('intocadog.stormkit.dev')) {
-        link.setAttribute('href', '#' + href.split('#')[1]);
-    }
-});
-
-document.querySelectorAll('.sidebar a').forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
         const section = link.getAttribute('href').split('#')[1];
@@ -875,12 +868,14 @@ function showSection(sectionId) {
     
     document.getElementById(sectionId).classList.add('active');
     
-
+    
     if (window.location.href.includes('intocadog.stormkit.dev')) {
-        window.history.pushState({}, '', `#${sectionId}`);
-    } else {
-        window.history.pushState({}, '', `/articog/#${sectionId}`);
+     
+        return;
     }
+
+    
+    window.history.pushState({}, '', `/intoartico/#${sectionId}`);
     
     if (window.innerWidth <= 768) {
         document.querySelector('.sidebar').classList.remove('active');
@@ -913,11 +908,11 @@ function toggleVersion(color) {
     if (fullVersion.style.display !== 'none') {
         fullVersion.style.display = 'none';
         liteVersion.style.display = 'flex'; 
-        button.textContent = 'Voltar para versão full';
+        button.textContent = 'Voltar para versão FULL';
     } else {
         fullVersion.style.display = 'flex'; 
         liteVersion.style.display = 'none';
-        button.textContent = 'Veja aqui a versão lite';
+        button.textContent = 'Veja a versão LITE';
     }
 }
 
@@ -929,5 +924,6 @@ document.addEventListener('click', (e) => {
         toggleNav();
     }
 });
+</script>
 </script>
 </body></html>
