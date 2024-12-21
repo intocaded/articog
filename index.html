@@ -854,7 +854,7 @@ function toggleNav() {
 
 document.querySelectorAll('.sidebar a').forEach(link => {
     const href = link.getAttribute('href');
-    if (window.location.href.includes('garticmod.static.domains')) {
+    if (window.location.href.includes('intocadog.stormkit.dev')) {
         link.setAttribute('href', '#' + href.split('#')[1]);
     }
 });
@@ -876,7 +876,7 @@ function showSection(sectionId) {
     document.getElementById(sectionId).classList.add('active');
     
 
-    if (window.location.href.includes('garticmod.static.domains')) {
+    if (window.location.href.includes('intocadog.stormkit.dev')) {
         window.history.pushState({}, '', `#${sectionId}`);
     } else {
         window.history.pushState({}, '', `/articog/#${sectionId}`);
