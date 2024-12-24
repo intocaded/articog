@@ -518,7 +518,7 @@ body {
 
         <div style="margin-top: 30px; padding: 15px; background: var(--accent); border-radius: 8px; text-align: center;">
             <h3 style="margin-bottom: 10px;">🎉 Nova Atualização disponível🎉</h3>
-            <p>Versão 10.1 chegou, a úlima atualização. Veja o changelog</p>
+            <p>Versão 10.1 chegou, da pra enviar a foto na úlima atualização. Veja o changelog</p>
             <a href="#changelog" onclick="showSection('changelog')" style="color: white; text-decoration: underline; display: inline-block; margin-top: 10px;">Ver Changelog</a>
         </div>
 
@@ -879,7 +879,7 @@ async function getGitHubDownloads() {
   try {
     const response = await fetch('https://api.github.com/repos/intocaded/intoarchiv/releases');
     const data = await response.json();
-    let totalDownloads = 1400;
+    let totalDownloads = 1400; // Starting with 1.4k base downloads
     data.forEach(release => {
       if (release.assets) {
         release.assets.forEach(asset => {
@@ -928,7 +928,7 @@ function showSection(sectionId) {
     return;
   }
   
-
+  // Original behavior for other domains
   window.history.pushState({}, '', `/#${sectionId}`);
   
   if (window.innerWidth <= 768) {
@@ -961,7 +961,7 @@ function toggleVersion(color) {
   if (fullVersion.style.display !== 'none') {
     fullVersion.style.display = 'none';
     liteVersion.style.display = 'flex';
-    button.textContent = 'Voltar para versão full';
+    button.textContent = 'Voltar para versão completa';
   } else {
     fullVersion.style.display = 'flex';
     liteVersion.style.display = 'none';
@@ -980,4 +980,3 @@ document.addEventListener('click', e => {
 setInterval(getGitHubDownloads, 1200000);
 </script>
 
-</body></html>
