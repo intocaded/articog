@@ -863,7 +863,8 @@ body {
     <img id="popupImage" src="" alt="">
 </div>
 
-<script>async function getGitHubDownloads() {
+<script>
+async function getGitHubDownloads() {
   const downloadsDiv = document.querySelector('#downloads-count');
   if (downloadsDiv) {
     downloadsDiv.textContent = 'Atualizando...';
@@ -889,6 +890,7 @@ body {
     }
   }
 }
+
 function toggleNav() {
   document.querySelector('.sidebar').classList.toggle('active');
   const spans = document.querySelectorAll('.nav-toggle span');
@@ -896,42 +898,55 @@ function toggleNav() {
     span.classList.toggle('active');
   });
 }
+
 document.querySelectorAll('.sidebar a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
-    const section = link.getAttribute('href').split('#')[1];
+    const section = link.getAttribute('onclick').match(/showSection\('(.+)'\)/)[1];
     showSection(section);
     document.querySelector('.sidebar').classList.remove('active');
   });
 });
+
 function showSection(sectionId) {
   document.querySelectorAll('.content section').forEach(section => {
     section.classList.remove('active');
   });
   document.getElementById(sectionId).classList.add('active');
+  
+
   if (window.location.href.includes('intocadog.stormkit.dev')) {
+
+    window.history.pushState({}, '', `/#${sectionId}`);
     return;
   }
-  window.history.pushState({}, '', `/intoartico/#${sectionId}`);
+  
+
+  window.history.pushState({}, '', `/#${sectionId}`);
+  
   if (window.innerWidth <= 768) {
     document.querySelector('.sidebar').classList.remove('active');
   }
 }
+
 window.addEventListener('load', () => {
   const hash = window.location.hash.slice(1) || 'home';
   showSection(hash);
   getGitHubDownloads();
 });
+
 window.addEventListener('popstate', () => {
   const hash = window.location.hash.slice(1) || 'home';
   showSection(hash);
 });
+
 function showPopup(src) {
   const popup = document.getElementById('imagePopup');
   const popupImg = document.getElementById('popupImage');
   popupImg.src = src;
   popup.style.display = 'flex';
 }
+
 function toggleVersion(color) {
   const fullVersion = document.getElementById(`${color}-full`);
   const liteVersion = document.getElementById(`${color}-lite`);
@@ -946,6 +961,7 @@ function toggleVersion(color) {
     button.textContent = 'Veja aqui a versão lite';
   }
 }
+
 document.addEventListener('click', e => {
   const sidebar = document.querySelector('.sidebar');
   const navToggle = document.querySelector('.nav-toggle');
@@ -953,6 +969,7 @@ document.addEventListener('click', e => {
     toggleNav();
   }
 });
+
 setInterval(getGitHubDownloads, 1200000);
 </script>
 
