@@ -766,7 +766,7 @@ body {
         <div class="faq-item">
                 <h3>Versão 10.1 Up2 Última atualização</h3>
                 <ul style="list-style-type: disc; margin-left: 20px;">
-                    <li>Mudei o servidor para outro agora da pra enviar fotos.</li>
+                    <li>Mudei o servidor para outro (usa do pwa m.gartic.net),agora da pra enviar fotos.</li>
                 </ul>
             
         <div class="faq-item">
@@ -879,7 +879,7 @@ async function getGitHubDownloads() {
   try {
     const response = await fetch('https://api.github.com/repos/intocaded/intoarchiv/releases');
     const data = await response.json();
-    let totalDownloads = 1580;
+    let totalDownloads = 1598;
     data.forEach(release => {
       if (release.assets) {
         release.assets.forEach(asset => {
