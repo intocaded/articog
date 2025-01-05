@@ -1,6 +1,6 @@
-<html><head><base href="articog/">
+<html><head><base href="/articog/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * {
@@ -952,19 +952,11 @@ document.querySelectorAll('.sidebar a').forEach(link => {
   });
 });
 function showSection(sectionId) {
-  document.querySelectorAll('.content section').forEach(section => {
-    section.classList.remove('active');
-  });
   document.getElementById(sectionId).classList.add('active');
-  if (window.location.href.includes('intocaded.github.io')) {
-    window.history.pushState({}, '', `/#${sectionId}`);
+  if (window.location.href.includes('intocaded.github.io/articog')) {
+    window.history.pushState({}, '', `/articog/#${sectionId}`);
     return;
   }
-  window.history.pushState({}, '', `/#${sectionId}`);
-  if (window.innerWidth <= 768) {
-    document.querySelector('.sidebar').classList.remove('active');
-  }
-}
 window.addEventListener('load', () => {
   const hash = window.location.hash.slice(1) || 'home';
   showSection(hash);
