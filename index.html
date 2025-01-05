@@ -956,7 +956,7 @@ function showSection(sectionId) {
     section.classList.remove('active');
   });
   document.getElementById(sectionId).classList.add('active');
-  if (window.location.href.includes('intocadog.stormkit.dev')) {
+  if (window.location.href.includes('intocaded.github.io')) {
     window.history.pushState({}, '', `/#${sectionId}`);
     return;
   }
