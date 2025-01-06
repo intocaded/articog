@@ -952,18 +952,28 @@ document.querySelectorAll('.sidebar a').forEach(link => {
   });
 });
 function showSection(sectionId) {
+  document.querySelectorAll('.content section').forEach(section => {
+    section.classList.remove('active');
+  });
   document.getElementById(sectionId).classList.add('active');
   if (window.location.href.includes('intocaded.github.io/articog')) {
     window.history.pushState({}, '', `/articog/#${sectionId}`);
     return;
   }
+  window.history.pushState({}, '', `/#${sectionId}`);
+  if (window.innerWidth <= 768) {
+    document.querySelector('.sidebar').classList.remove('active');
+  }
+}
 window.addEventListener('load', () => {
-  const hash = window.location.hash.slice(1) || 'home';
+  const rawHash = window.location.hash;
+  const hash = rawHash.replace('/articog/', '').slice(1) || 'home';
   showSection(hash);
   getGitHubDownloads();
 });
 window.addEventListener('popstate', () => {
-  const hash = window.location.hash.slice(1) || 'home';
+  const rawHash = window.location.hash;
+  const hash = rawHash.replace('/articog/', '').slice(1) || 'home';
   showSection(hash);
 });
 function showPopup(src) {
@@ -980,5 +990,3 @@ document.addEventListener('click', e => {
   }
 });
 setInterval(getGitHubDownloads, 1200000);</script>
-
-</body></html>
