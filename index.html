@@ -922,7 +922,7 @@ body {
   try {
     const response = await fetch('https://api.github.com/repos/intocaded/intoarchiv/releases');
     const data = await response.json();
-    let totalDownloads = 1598;
+    let totalDownloads = 1853;
     data.forEach(release => {
       if (release.assets) {
         release.assets.forEach(asset => {
